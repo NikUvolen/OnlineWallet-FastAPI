@@ -6,10 +6,9 @@ from uuid import UUID
 import pytest
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.wallets import service
 from app.wallets.models import Wallet
 from app.wallets.schemas import OperationType, WalletOperation
-from app.wallets import service
-
 
 pytestmark = pytest.mark.asyncio
 
@@ -28,7 +27,7 @@ async def test_create_wallet_returns_zero_balance(session_factory):
         await session.commit()
 
         assert isinstance(wallet.id, UUID)
-        assert wallet.balance == Decimal("0.00")
+        assert wallet.balance == Decimal('0.00')
 
 
 async def test_get_balance_returns_wallet_response(session_factory):
@@ -39,7 +38,7 @@ async def test_get_balance_returns_wallet_response(session_factory):
         wallet = await service.get_balance(session, created.id)
 
         assert wallet.id == created.id
-        assert wallet.balance == Decimal("0.00")
+        assert wallet.balance == Decimal('0.00')
 
 
 async def test_deposit_increases_balance(session_factory):
@@ -48,7 +47,7 @@ async def test_deposit_increases_balance(session_factory):
 
     operation = WalletOperation(
         operation_type=OperationType.DEPOSIT,
-        amount=Decimal("100.04"),
+        amount=Decimal('100.04'),
     )
 
     async with session_factory() as session:
@@ -56,11 +55,11 @@ async def test_deposit_increases_balance(session_factory):
         await session.commit()
         await session.refresh(wallet)
 
-        assert wallet.balance == Decimal("100.04")
+        assert wallet.balance == Decimal('100.04')
 
     async with session_factory() as session:
         updated = await service.get_balance(session, created.id)
-        assert updated.balance == Decimal("100.04")
+        assert updated.balance == Decimal('100.04')
 
 
 async def test_withdraw_too_much_raises(session_factory):
@@ -69,11 +68,11 @@ async def test_withdraw_too_much_raises(session_factory):
 
     operation = WalletOperation(
         operation_type=OperationType.WITHDRAWAL,
-        amount=Decimal("1.00"),
+        amount=Decimal('1.00'),
     )
 
     async with session_factory() as session:
-        with pytest.raises(ValueError, match="Insufficient balance"):
+        with pytest.raises(ValueError, match='Insufficient balance'):
             await service.update_balance(session, created.id, operation)
 
 
@@ -82,7 +81,7 @@ async def test_concurrent_deposits_are_not_lost(session_factory):
         created = await create_wallet_row(session)
 
     workers = 10
-    deposit_amount = Decimal("10.04")
+    deposit_amount = Decimal('10.04')
     ready_count = 0
     ready_lock = Lock()
     start = Event()

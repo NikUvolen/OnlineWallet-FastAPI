@@ -1,6 +1,6 @@
-from pathlib import Path
 import os
 import sys
+from pathlib import Path
 
 import pytest_asyncio
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
@@ -9,12 +9,14 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from app.wallets.models import Base, Wallet
-
+from app.wallets.models import Base
 
 TEST_DATABASE_URL = os.getenv(
-    "TEST_DATABASE_URL",
-    os.getenv("DATABASE_URL", "postgresql+asyncpg://wallet_user:wallet_password@localhost:5432/wallet_db"),
+    'TEST_DATABASE_URL',
+    os.getenv(
+        'DATABASE_URL',
+        'postgresql+asyncpg://wallet_user:wallet_password@localhost:5432/wallet_db',
+    ),
 )
 
 

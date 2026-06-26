@@ -1,7 +1,6 @@
-from fastapi import FastAPI
-from fastapi import APIRouter
-from app.wallets.router import router as wallets_router
+from fastapi import APIRouter, FastAPI
 
+from app.wallets.router import router as wallets_router
 
 app = FastAPI(title='Online Wallet API')
 v1_router = APIRouter(prefix='/v1', tags=['v1'])
@@ -11,6 +10,4 @@ app.include_router(v1_router)
 
 @app.get('/')
 async def root():
-    return {
-        'message': 'app is running'
-    }
+    return {'message': 'app is running'}
