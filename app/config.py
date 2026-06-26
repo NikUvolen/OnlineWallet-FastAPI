@@ -5,6 +5,7 @@ class Settings(BaseSettings):
     POSTGRES_USER: str = ""
     POSTGRES_PASSWORD: str = ""
     POSTGRES_DB: str = ""
+    POSTGRES_HOST: str = "localhost"
     POSTGRES_PORT: int = 5432
 
     @property
@@ -12,7 +13,7 @@ class Settings(BaseSettings):
         return (
             'postgresql+asyncpg://'
             f'{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}'
-            f'@localhost:{self.POSTGRES_PORT}/{self.POSTGRES_DB}'
+            f'@{self.POSTGRES_HOST}:{self.POSTGRES_PORT}/{self.POSTGRES_DB}'
         )
     
     model_config = SettingsConfigDict(
