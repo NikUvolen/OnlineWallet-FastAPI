@@ -12,3 +12,9 @@ dependencies = [
     "pydantic>=2.13.4",
     "pydantic-settings>=2.14.2",
 ]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1.1",
+    "pytest-asyncio>=1.4.0",
+]
